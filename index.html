@@ -3,57 +3,65 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>コンセプトパーティ 予約</title>
+<title>WonderForest</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --pink:     #D4537E;
-    --pink-bg:  #FBEAF0;
-    --pink-dk:  #72243E;
-    --pink-mid: #993556;
-    --gold-bg:  #FAEEDA;
-    --gold-dk:  #633806;
-    --gold-mid: #854F0B;
-    --blue-bg:  #E6F1FB;
-    --blue-dk:  #0C447C;
-    --blue-mid: #185FA5;
-    --green-bg: #EAF3DE;
-    --green-dk: #3B6D11;
-    --bg:       #fff;
-    --bg2:      #f5f5f3;
-    --border:   rgba(0,0,0,0.12);
-    --border2:  rgba(0,0,0,0.22);
-    --text:     #1a1a1a;
-    --text2:    #555;
-    --text3:    #999;
-    --radius:   8px;
-    --radius-lg:12px;
+    --green:      #3a6b35;
+    --green-dk:   #1e3d1a;
+    --green-mid:  #4e8047;
+    --green-bg:   #e8f0e2;
+    --green-pale: #f2f6ee;
+    --floral:     #c4697a;
+    --floral-bg:  #faeaed;
+    --floral-dk:  #7a3040;
+    --gold:       #a07830;
+    --gold-bg:    #f5ecd8;
+    --gold-dk:    #6b4e18;
+    --sage:       #8faa85;
+    --lavender:   #9b8ab5;
+    --lav-bg:     #f0ecf8;
+    --lav-dk:     #4e3d70;
+    --bg:         #fdfaf5;
+    --bg2:        #f3ede4;
+    --border:     rgba(58,107,53,0.15);
+    --border2:    rgba(58,107,53,0.28);
+    --text:       #1e2a1a;
+    --text2:      #4a5e45;
+    --text3:      #8fa885;
+    --radius:     10px;
+    --radius-lg:  16px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, 'Helvetica Neue', sans-serif; background: #f0eee8; color: var(--text); }
+  body { font-family: 'Noto Sans JP', -apple-system, sans-serif; background-color: #7aad60; background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><g transform='translate(40,45)'><ellipse cx='0' cy='-8' rx='3.5' ry='6' fill='rgba(249,168,184,0.82)'/><ellipse cx='0' cy='-8' rx='3.5' ry='6' fill='rgba(249,168,184,0.82)' transform='rotate(72)'/><ellipse cx='0' cy='-8' rx='3.5' ry='6' fill='rgba(249,168,184,0.82)' transform='rotate(144)'/><ellipse cx='0' cy='-8' rx='3.5' ry='6' fill='rgba(249,168,184,0.82)' transform='rotate(216)'/><ellipse cx='0' cy='-8' rx='3.5' ry='6' fill='rgba(249,168,184,0.82)' transform='rotate(288)'/><circle r='3.5' fill='rgba(240,210,70,0.95)'/></g><g transform='translate(115,95)'><ellipse cx='0' cy='-7' rx='3' ry='5.5' fill='rgba(200,175,230,0.82)'/><ellipse cx='0' cy='-7' rx='3' ry='5.5' fill='rgba(200,175,230,0.82)' transform='rotate(72)'/><ellipse cx='0' cy='-7' rx='3' ry='5.5' fill='rgba(200,175,230,0.82)' transform='rotate(144)'/><ellipse cx='0' cy='-7' rx='3' ry='5.5' fill='rgba(200,175,230,0.82)' transform='rotate(216)'/><ellipse cx='0' cy='-7' rx='3' ry='5.5' fill='rgba(200,175,230,0.82)' transform='rotate(288)'/><circle r='3' fill='rgba(240,210,70,0.95)'/></g><g transform='translate(132,22)' opacity='0.78'><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,255,255,0.88)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,255,255,0.88)' transform='rotate(72)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,255,255,0.88)' transform='rotate(144)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,255,255,0.88)' transform='rotate(216)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,255,255,0.88)' transform='rotate(288)'/><circle r='2.5' fill='rgba(240,210,70,0.9)'/></g><g transform='translate(18,122)' opacity='0.72'><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(249,168,184,0.8)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(249,168,184,0.8)' transform='rotate(72)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(249,168,184,0.8)' transform='rotate(144)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(249,168,184,0.8)' transform='rotate(216)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(249,168,184,0.8)' transform='rotate(288)'/><circle r='2' fill='rgba(240,210,70,0.9)'/></g><g transform='translate(78,138)' opacity='0.68'><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,200,160,0.82)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,200,160,0.82)' transform='rotate(72)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,200,160,0.82)' transform='rotate(144)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,200,160,0.82)' transform='rotate(216)'/><ellipse cx='0' cy='-6' rx='2.5' ry='4.5' fill='rgba(255,200,160,0.82)' transform='rotate(288)'/><circle r='2.5' fill='rgba(240,210,70,0.9)'/></g><g transform='translate(155,68)' opacity='0.6'><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(200,175,230,0.75)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(200,175,230,0.75)' transform='rotate(72)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(200,175,230,0.75)' transform='rotate(144)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(200,175,230,0.75)' transform='rotate(216)'/><ellipse cx='0' cy='-5' rx='2' ry='4' fill='rgba(200,175,230,0.75)' transform='rotate(288)'/><circle r='2' fill='rgba(240,210,70,0.88)'/></g></svg>"); background-size: 160px 160px; color: var(--text); }
   .wrap { max-width: 480px; margin: 0 auto; padding: 1rem; }
 
-  .hero { background: var(--pink-bg); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; text-align: center; }
-  .hero h1 { font-size: 22px; font-weight: 500; color: var(--pink-dk); margin-bottom: 4px; }
-  .hero p  { font-size: 13px; color: var(--pink-mid); }
+  /* Hero */
+  .hero { background: var(--green-dk); border-radius: var(--radius-lg); padding: 1.75rem 1.5rem; margin-bottom: 1rem; text-align: center; position: relative; overflow: hidden; }
+  .hero-deco { font-size: 22px; letter-spacing: 6px; margin-bottom: 6px; opacity: .75; }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 500; color: #e8f0e2; letter-spacing: 2px; margin-bottom: 4px; }
+  .hero-sub { font-size: 12px; color: var(--sage); letter-spacing: 1px; margin-bottom: 4px; }
+  .hero p { font-size: 12px; color: #a8c4a0; }
 
+  /* Tabs */
   .tabs { display: flex; gap: 6px; margin-bottom: 1rem; }
-  .tab  { flex: 1; padding: 8px 4px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 12px; color: var(--text2); cursor: pointer; text-align: center; background: var(--bg); line-height: 1.5; transition: all .15s; }
-  .tab.active { background: var(--pink-bg); border-color: var(--pink); color: var(--pink-dk); font-weight: 500; }
+  .tab  { flex: 1; padding: 8px 4px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 11px; color: var(--text2); cursor: pointer; text-align: center; background: var(--bg); line-height: 1.5; transition: all .15s; }
+  .tab.active { background: var(--green-dk); border-color: var(--green-dk); color: #e8f0e2; font-weight: 500; }
 
   .sec { display: none; } .sec.active { display: block; }
   .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
-  .card-title { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .card-title { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; color: var(--green-dk); }
   .card-desc  { font-size: 12px; color: var(--text2); margin-bottom: 10px; }
   .dlabel { font-size: 12px; color: var(--text2); margin: 10px 0 6px; }
 
+  /* Slots */
   .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
   .slot  { padding: 8px 4px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 12px; text-align: center; cursor: pointer; background: var(--bg); transition: all .15s; }
-  .slot:hover:not(.full) { background: var(--pink-bg); border-color: var(--pink); }
+  .slot:hover:not(.full) { background: var(--green-bg); border-color: var(--green); }
   .slot.full     { background: var(--bg2); color: var(--text3); cursor: default; }
-  .slot.selected { background: var(--pink); color: #fff; border-color: var(--pink); }
+  .slot.selected { background: var(--green); color: #fff; border-color: var(--green); }
   .slot-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
-  .slot.selected .slot-sub { color: rgba(255,255,255,.8); }
-  .slot.full .slot-sub { color: var(--text3); }
+  .slot.selected .slot-sub { color: rgba(255,255,255,.75); }
 
   input, textarea { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 14px; color: var(--text); background: var(--bg); font-family: inherit; }
   textarea { min-height: 75px; resize: vertical; }
@@ -61,39 +69,45 @@
   label:first-child { margin-top: 0; }
 
   .btn { display: block; width: 100%; padding: 11px; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; text-align: center; transition: opacity .15s; margin-top: 10px; }
-  .btn-pink  { background: var(--pink); color: #fff; }
+  .btn-pink  { background: var(--green); color: #fff; }
   .btn-ghost { background: var(--bg2); color: var(--text2); border: 0.5px solid var(--border2); }
   .btn:disabled { opacity: .4; cursor: default; }
-  .btn:hover:not(:disabled) { opacity: .88; }
+  .btn:hover:not(:disabled) { opacity: .85; }
 
-  .badge { font-size: 11px; padding: 2px 8px; border-radius: var(--radius); }
-  .badge-pink { background: var(--pink-bg); color: var(--pink-dk); }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+  .badge-pink { background: var(--green-bg); color: var(--green-dk); }
   .badge-gold { background: var(--gold-bg); color: var(--gold-dk); }
 
   .order-spot { display: flex; align-items: center; justify-content: space-between; background: var(--gold-bg); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; }
-  .spot-num   { font-size: 28px; font-weight: 500; color: var(--gold-dk); }
-  .spot-label { font-size: 12px; color: var(--gold-mid); }
+  .spot-num   { font-size: 28px; font-weight: 500; color: var(--gold-dk); font-family: 'Cormorant Garamond', serif; }
+  .spot-label { font-size: 12px; color: var(--gold); }
 
-  .info-box { font-size: 12px; color: var(--blue-dk); background: var(--blue-bg); padding: 8px 10px; border-radius: var(--radius); margin-bottom: 12px; line-height: 1.6; }
+  .info-box { font-size: 12px; color: var(--lav-dk); background: var(--lav-bg); padding: 8px 10px; border-radius: var(--radius); margin-bottom: 12px; line-height: 1.6; }
 
+  /* Q board */
   .q-item { border-top: 0.5px solid var(--border); padding: 10px 0; }
-  .q-who  { font-size: 12px; color: var(--pink); font-weight: 500; margin-bottom: 2px; }
+  .q-who  { font-size: 12px; color: var(--floral); font-weight: 500; margin-bottom: 2px; }
   .q-txt  { font-size: 13px; line-height: 1.6; }
-  .q-ans  { font-size: 13px; color: var(--blue-mid); background: var(--blue-bg); border-radius: var(--radius); padding: 8px 10px; margin-top: 6px; line-height: 1.6; }
-  .q-ansl { font-size: 11px; font-weight: 500; margin-bottom: 2px; }
+  .q-ans  { font-size: 13px; color: var(--lav-dk); background: var(--lav-bg); border-radius: var(--radius); padding: 8px 10px; margin-top: 6px; line-height: 1.6; }
+  .q-ansl { font-size: 11px; font-weight: 500; margin-bottom: 2px; color: var(--lavender); }
   .q-ts   { font-size: 11px; color: var(--text3); margin-top: 4px; }
 
-  .stylist-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 0.5px solid var(--border); }
-  .stylist-row:first-child { border-top: none; }
-  .avatar      { width: 50px; height: 50px; border-radius: 50%; background: var(--pink-bg); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-  .st-name     { font-size: 14px; font-weight: 500; }
-  .st-role     { font-size: 12px; color: var(--pink); margin-bottom: 4px; }
+  /* Stylists */
+  .stylist-item { border-top: 0.5px solid var(--border); padding: 14px 0; }
+  .stylist-item:first-child { border-top: none; padding-top: 0; }
+  .stylist-img  { width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius); margin-bottom: 10px; background: var(--green-bg); display: block; }
+  .stylist-img-placeholder { width: 100%; height: 200px; border-radius: var(--radius); margin-bottom: 10px; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+  .stylist-row { display: flex; gap: 10px; align-items: flex-start; }
+  .avatar      { width: 44px; height: 44px; border-radius: 50%; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; border: 1px solid var(--border2); }
+  .st-name     { font-size: 15px; font-weight: 500; color: var(--green-dk); font-family: 'Cormorant Garamond', serif; }
+  .st-role     { font-size: 12px; color: var(--floral); margin-bottom: 4px; }
   .st-desc     { font-size: 12px; color: var(--text2); line-height: 1.6; }
-  .skill-tag   { display: inline-block; font-size: 11px; padding: 2px 7px; background: var(--pink-bg); color: var(--pink-dk); border-radius: var(--radius); margin: 2px 2px 0 0; }
+  .skill-tag   { display: inline-block; font-size: 11px; padding: 2px 8px; background: var(--green-bg); color: var(--green-dk); border-radius: 20px; margin: 2px 2px 0 0; border: 0.5px solid var(--border2); }
 
+  /* Admin */
   .adm-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 0.5px solid var(--border); font-size: 13px; }
   .adm-row:first-child { border-top: none; }
-  .ok-badge { font-size: 11px; padding: 2px 8px; border-radius: var(--radius); }
+  .ok-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; }
   .adm-edit { background: var(--bg2); border-radius: var(--radius); padding: 10px; margin-bottom: 10px; }
   .adm-sec  { font-size: 13px; font-weight: 500; margin-bottom: 10px; color: var(--text); }
   .sep      { border: none; border-top: 0.5px solid var(--border); margin: 14px 0; }
@@ -106,8 +120,10 @@
 <div class="wrap">
 
   <div class="hero">
-    <h1>✦ コンセプトパーティ</h1>
-    <p>8/17（日）開催　予約 &amp; 質問掲示板</p>
+    <div class="hero-deco">🌿 🌸 🌿</div>
+    <h1>WonderForest</h1>
+    <div class="hero-sub">— concept party —</div>
+    <p>8/17（月）開催　予約 &amp; 質問掲示板</p>
   </div>
 
   <div class="tabs">
@@ -124,16 +140,16 @@
     <div class="card" id="card-koza" style="display:none;">
       <div class="card-title">🪡 服の飾りつけ <span class="badge badge-pink">ワークショップ</span></div>
       <div class="card-desc">2名同時・1時間枠　前日または当日朝に参加できます</div>
-      <div class="dlabel">📅 前日（8/16 土）</div>
+      <div class="dlabel">📅 前日（8/16 日）</div>
       <div class="slots" id="sl-zen"></div>
-      <div class="dlabel" style="margin-top:12px;">📅 当日朝（8/17 日）</div>
+      <div class="dlabel" style="margin-top:12px;">📅 当日朝（8/17 月）</div>
       <div class="slots" id="sl-tok"></div>
     </div>
 
     <div class="card" id="card-make" style="display:none;">
       <div class="card-title">💄 フルメイク <span class="badge badge-pink">当日朝のみ</span></div>
       <div class="card-desc">1名・30分枠　希望の時間を選んで予約</div>
-      <div class="dlabel">📅 当日朝（8/17 日）</div>
+      <div class="dlabel">📅 当日朝（8/17 月）</div>
       <div class="slots" id="sl-tom"></div>
     </div>
 
@@ -146,12 +162,12 @@
           <div class="spot-num" id="order-remain">4</div>
           <div class="spot-label">名</div>
         </div>
-        <div style="font-size:12px;color:var(--gold-mid);line-height:1.7;">締切：7/31（木）<br>詳細は相談後決定</div>
+        <div style="font-size:12px;color:var(--gold-mid);line-height:1.7;">締切：7/4（土）<br>詳細は相談後決定</div>
       </div>
       <div id="order-form">
-        <label for="ord-name">お名前</label>
+        <label for="ord-name">お名前 <span style="color:var(--pink);font-size:11px;">※必須</span></label>
         <input id="ord-name" type="text" placeholder="例：さくら" />
-        <label for="ord-idea">イメージ・やりたいこと（任意）</label>
+        <label for="ord-idea">イメージ・やりたいこと <span style="color:var(--pink);font-size:11px;">※必須</span></label>
         <textarea id="ord-idea" placeholder="例：和風×ゴシックで黒×金を使いたい" style="min-height:60px;"></textarea>
         <button class="btn btn-pink" onclick="doOrder()">申し込む</button>
       </div>
@@ -235,9 +251,9 @@ const ADMIN_PW = 'adminforest';
 const ORDER_CAP = 4;
 const CAPS = { zen: 2, tok: 2, tom: 1 };
 const SVCS = {
-  zen: { label: '服の飾りつけ（前日 8/16）',   times: ['13:00','14:00','15:00','16:00','17:00','18:00'] },
-  tok: { label: '服の飾りつけ（当日朝 8/17）', times: ['8:00','9:00','10:00','11:00'] },
-  tom: { label: 'フルメイク（当日朝 8/17）',   times: ['8:00','8:30','9:00','9:30','10:00','10:30','11:00','11:30'] }
+  zen: { label: '服の飾りつけ（前日 8/16 日）',   times: ['13:00','14:00','15:00','16:00','17:00','18:00'] },
+  tok: { label: '服の飾りつけ（当日朝 8/17 月）', times: ['8:00','9:00','10:00','11:00'] },
+  tom: { label: 'フルメイク（当日朝 8/17 月）',   times: ['8:00','8:30','9:00','9:30','10:00','10:30','11:00','11:30'] }
 };
 
 let state = { counts: {}, bookingList: [], orders: [], questions: [], stylists: [] };
@@ -336,6 +352,7 @@ async function doOrder() {
   if (!name) { toast('お名前を入力してください', 'w'); return; }
   if (state.orders.length >= ORDER_CAP) { toast('受付終了しました', 'w'); return; }
   const idea = document.getElementById('ord-idea').value.trim();
+  if (!idea) { toast('イメージ・やりたいことを入力してください', 'w'); return; }
   const btn = event.target; btn.disabled = true;
   const r = await api('order', { name, idea });
   btn.disabled = false;
@@ -385,7 +402,17 @@ function renderStylists() {
   if (!stl || !stl.length) { el.innerHTML = '<p style="color:var(--text3);font-size:13px;">準備中</p>'; return; }
   el.innerHTML = stl.map(st => {
     const tags = (st.tags || '').split(',').filter(Boolean).map(t => '<span class="skill-tag">' + t.trim() + '</span>').join('');
-    return '<div class="stylist-row"><div class="avatar">🎨</div><div><div class="st-name">' + st.name + '</div><div class="st-role">' + st.role + '</div><div class="st-desc">' + st.desc + '</div><div style="margin-top:4px;">' + tags + '</div></div></div>';
+    const imgHtml = st.img
+      ? '<img class="stylist-img" src="' + st.img + '" alt="' + st.name + '" />'
+      : '<div class="stylist-img-placeholder">🎨</div>';
+    return '<div class="stylist-item">'
+      + imgHtml
+      + '<div class="stylist-row"><div class="avatar">✦</div><div>'
+      + '<div class="st-name">' + st.name + '</div>'
+      + '<div class="st-role">' + st.role + '</div>'
+      + '<div class="st-desc">' + st.desc + '</div>'
+      + '<div style="margin-top:6px;">' + tags + '</div>'
+      + '</div></div></div>';
   }).join('');
 }
 
@@ -434,7 +461,9 @@ function renderAdminStylists() {
     + '<input placeholder="名前" id="st-n-' + i + '" value="' + st.name + '" style="margin-bottom:6px;" />'
     + '<input placeholder="役割（例：メイク担当）" id="st-r-' + i + '" value="' + st.role + '" style="margin-bottom:6px;" />'
     + '<textarea placeholder="紹介文" id="st-d-' + i + '" style="min-height:55px;margin-bottom:6px;">' + st.desc + '</textarea>'
-    + '<input placeholder="スキルタグ（カンマ区切り）" id="st-t-' + i + '" value="' + st.tags + '" />'
+    + '<input placeholder="スキルタグ（カンマ区切り）" id="st-t-' + i + '" value="' + st.tags + '" style="margin-bottom:6px;" />'
+    + '<input placeholder="画像URL（例：https://...）" id="st-i-' + i + '" value="' + (st.img || '') + '" />'
+    + (st.img ? '<img src="' + st.img + '" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-top:6px;" />' : '<div style="font-size:11px;color:var(--text3);margin-top:4px;">画像URLを入力すると表示されます</div>')
     + '</div>'
   ).join('');
 }
@@ -447,6 +476,7 @@ async function saveStylists() {
       name: document.getElementById('st-n-' + i).value,
       role: document.getElementById('st-r-' + i).value,
       desc: document.getElementById('st-d-' + i).value,
+      img:  document.getElementById('st-i-' + i).value,
       tags: document.getElementById('st-t-' + i).value
     });
     i++;
