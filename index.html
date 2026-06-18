@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>コンセプトパーティ 予約</title>
+<style>
+  :root {
+    --pink:     #D4537E;
+    --pink-bg:  #FBEAF0;
+    --pink-dk:  #72243E;
+    --pink-mid: #993556;
+    --gold-bg:  #FAEEDA;
+    --gold-dk:  #633806;
+    --gold-mid: #854F0B;
+    --blue-bg:  #E6F1FB;
+    --blue-dk:  #0C447C;
+    --blue-mid: #185FA5;
+    --green-bg: #EAF3DE;
+    --green-dk: #3B6D11;
+    --bg:       #fff;
+    --bg2:      #f5f5f3;
+    --border:   rgba(0,0,0,0.12);
+    --border2:  rgba(0,0,0,0.22);
+    --text:     #1a1a1a;
+    --text2:    #555;
+    --text3:    #999;
+    --radius:   8px;
+    --radius-lg:12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Helvetica Neue', sans-serif; background: #f0eee8; color: var(--text); }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 1rem; }
+
+  .hero { background: var(--pink-bg); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; text-align: center; }
+  .hero h1 { font-size: 22px; font-weight: 500; color: var(--pink-dk); margin-bottom: 4px; }
+  .hero p  { font-size: 13px; color: var(--pink-mid); }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 1rem; }
+  .tab  { flex: 1; padding: 8px 4px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 12px; color: var(--text2); cursor: pointer; text-align: center; background: var(--bg); line-height: 1.5; transition: all .15s; }
+  .tab.active { background: var(--pink-bg); border-color: var(--pink); color: var(--pink-dk); font-weight: 500; }
+
+  .sec { display: none; } .sec.active { display: block; }
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .card-title { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .card-desc  { font-size: 12px; color: var(--text2); margin-bottom: 10px; }
+  .dlabel { font-size: 12px; color: var(--text2); margin: 10px 0 6px; }
+
+  .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .slot  { padding: 8px 4px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 12px; text-align: center; cursor: pointer; background: var(--bg); transition: all .15s; }
+  .slot:hover:not(.full) { background: var(--pink-bg); border-color: var(--pink); }
+  .slot.full     { background: var(--bg2); color: var(--text3); cursor: default; }
+  .slot.selected { background: var(--pink); color: #fff; border-color: var(--pink); }
+  .slot-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .slot.selected .slot-sub { color: rgba(255,255,255,.8); }
+  .slot.full .slot-sub { color: var(--text3); }
+
+  input, textarea { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 14px; color: var(--text); background: var(--bg); font-family: inherit; }
+  textarea { min-height: 75px; resize: vertical; }
+  label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 4px; margin-top: 10px; }
+  label:first-child { margin-top: 0; }
+
+  .btn { display: block; width: 100%; padding: 11px; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; text-align: center; transition: opacity .15s; margin-top: 10px; }
+  .btn-pink  { background: var(--pink); color: #fff; }
+  .btn-ghost { background: var(--bg2); color: var(--text2); border: 0.5px solid var(--border2); }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .btn:hover:not(:disabled) { opacity: .88; }
+
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: var(--radius); }
+  .badge-pink { background: var(--pink-bg); color: var(--pink-dk); }
+  .badge-gold { background: var(--gold-bg); color: var(--gold-dk); }
+
+  .order-spot { display: flex; align-items: center; justify-content: space-between; background: var(--gold-bg); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; }
+  .spot-num   { font-size: 28px; font-weight: 500; color: var(--gold-dk); }
+  .spot-label { font-size: 12px; color: var(--gold-mid); }
+
+  .info-box { font-size: 12px; color: var(--blue-dk); background: var(--blue-bg); padding: 8px 10px; border-radius: var(--radius); margin-bottom: 12px; line-height: 1.6; }
+
+  .q-item { border-top: 0.5px solid var(--border); padding: 10px 0; }
+  .q-who  { font-size: 12px; color: var(--pink); font-weight: 500; margin-bottom: 2px; }
+  .q-txt  { font-size: 13px; line-height: 1.6; }
+  .q-ans  { font-size: 13px; color: var(--blue-mid); background: var(--blue-bg); border-radius: var(--radius); padding: 8px 10px; margin-top: 6px; line-height: 1.6; }
+  .q-ansl { font-size: 11px; font-weight: 500; margin-bottom: 2px; }
+  .q-ts   { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  .stylist-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 0.5px solid var(--border); }
+  .stylist-row:first-child { border-top: none; }
+  .avatar      { width: 50px; height: 50px; border-radius: 50%; background: var(--pink-bg); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .st-name     { font-size: 14px; font-weight: 500; }
+  .st-role     { font-size: 12px; color: var(--pink); margin-bottom: 4px; }
+  .st-desc     { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .skill-tag   { display: inline-block; font-size: 11px; padding: 2px 7px; background: var(--pink-bg); color: var(--pink-dk); border-radius: var(--radius); margin: 2px 2px 0 0; }
+
+  .adm-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 0.5px solid var(--border); font-size: 13px; }
+  .adm-row:first-child { border-top: none; }
+  .ok-badge { font-size: 11px; padding: 2px 8px; border-radius: var(--radius); }
+  .adm-edit { background: var(--bg2); border-radius: var(--radius); padding: 10px; margin-bottom: 10px; }
+  .adm-sec  { font-size: 13px; font-weight: 500; margin-bottom: 10px; color: var(--text); }
+  .sep      { border: none; border-top: 0.5px solid var(--border); margin: 14px 0; }
+
+  .loading { text-align: center; padding: 1rem; color: var(--text3); font-size: 13px; }
+  .toast   { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); padding: 10px 18px; border-radius: var(--radius); font-size: 13px; pointer-events: none; white-space: nowrap; z-index: 100; opacity: 0; transition: opacity .3s; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>✦ コンセプトパーティ</h1>
+    <p>8/17（日）開催　予約 &amp; 質問掲示板</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="sw('reserve')">📅<br>予約</div>
+    <div class="tab" onclick="sw('qboard')">💬<br>質問箱</div>
+    <div class="tab" onclick="sw('stylists')">✨<br>スタイリスト</div>
+    <div class="tab" onclick="sw('admin')">🔒<br>管理</div>
+  </div>
+
+  <!-- 予約 -->
+  <div id="sec-reserve" class="sec active">
+    <div id="loading-reserve" class="loading card">読み込み中...</div>
+
+    <div class="card" id="card-koza" style="display:none;">
+      <div class="card-title">🪡 服の飾りつけ <span class="badge badge-pink">ワークショップ</span></div>
+      <div class="card-desc">2名同時・1時間枠　前日または当日朝に参加できます</div>
+      <div class="dlabel">📅 前日（8/16 土）</div>
+      <div class="slots" id="sl-zen"></div>
+      <div class="dlabel" style="margin-top:12px;">📅 当日朝（8/17 日）</div>
+      <div class="slots" id="sl-tok"></div>
+    </div>
+
+    <div class="card" id="card-make" style="display:none;">
+      <div class="card-title">💄 フルメイク <span class="badge badge-pink">当日朝のみ</span></div>
+      <div class="card-desc">1名・30分枠　希望の時間を選んで予約</div>
+      <div class="dlabel">📅 当日朝（8/17 日）</div>
+      <div class="slots" id="sl-tom"></div>
+    </div>
+
+    <div class="card" id="card-order" style="display:none;">
+      <div class="card-title">👑 完全オーダーメイド <span class="badge badge-gold">限定4名</span></div>
+      <div class="card-desc">服をゼロからデザイン・製作。事前に相談の上で受付。</div>
+      <div class="order-spot">
+        <div>
+          <div class="spot-label">残り受付枠</div>
+          <div class="spot-num" id="order-remain">4</div>
+          <div class="spot-label">名</div>
+        </div>
+        <div style="font-size:12px;color:var(--gold-mid);line-height:1.7;">締切：7/31（木）<br>詳細は相談後決定</div>
+      </div>
+      <div id="order-form">
+        <label for="ord-name">お名前</label>
+        <input id="ord-name" type="text" placeholder="例：さくら" />
+        <label for="ord-idea">イメージ・やりたいこと（任意）</label>
+        <textarea id="ord-idea" placeholder="例：和風×ゴシックで黒×金を使いたい" style="min-height:60px;"></textarea>
+        <button class="btn btn-pink" onclick="doOrder()">申し込む</button>
+      </div>
+      <div id="order-done" style="display:none;text-align:center;padding:8px;font-size:13px;color:var(--green-dk);">申し込み済みです！連絡をお待ちください。</div>
+    </div>
+
+    <div class="card" id="bform" style="display:none;">
+      <div class="card-title" id="bform-title" style="margin-bottom:10px;"></div>
+      <label for="bname">お名前</label>
+      <input id="bname" type="text" placeholder="例：さくら" />
+      <button class="btn btn-pink" onclick="doBook()">この時間で予約する</button>
+      <button class="btn btn-ghost" onclick="clearSel()">キャンセル</button>
+    </div>
+  </div>
+
+  <!-- 質問掲示板 -->
+  <div id="sec-qboard" class="sec">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:8px;">💬 質問・相談を送る</div>
+      <div class="info-box">回答はこの掲示板に表示します。LINEグループでもお知らせします。</div>
+      <label for="qname">ニックネーム（任意）</label>
+      <input id="qname" type="text" placeholder="匿名もOK！" />
+      <label for="qtxt">質問・相談内容</label>
+      <textarea id="qtxt" placeholder="服のアレンジ方法、コンセプトに合うメイクなど何でも！"></textarea>
+      <button class="btn btn-pink" onclick="doQ()">送信</button>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:10px;">📋 みんなの質問</div>
+      <div id="qlist"><div class="loading">読み込み中...</div></div>
+    </div>
+  </div>
+
+  <!-- スタイリスト -->
+  <div id="sec-stylists" class="sec">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:12px;">✨ スタイリスト紹介</div>
+      <div id="stylist-list"><div class="loading">読み込み中...</div></div>
+    </div>
+  </div>
+
+  <!-- 管理 -->
+  <div id="sec-admin" class="sec">
+    <div id="admin-gate" class="card">
+      <div class="card-title" style="margin-bottom:12px;">🔒 管理画面</div>
+      <label for="pw">パスワード</label>
+      <input id="pw" type="password" placeholder="管理者のみ" />
+      <button class="btn btn-pink" onclick="adminLogin()">ログイン</button>
+    </div>
+    <div id="admin-main" style="display:none;">
+      <div class="card">
+        <div class="adm-sec">📅 予約一覧</div>
+        <div id="adm-bookings"></div>
+        <div class="sep"></div>
+        <div class="adm-sec">👑 オーダーメイド申し込み</div>
+        <div id="adm-orders"></div>
+      </div>
+      <div class="card">
+        <div class="adm-sec">💬 質問への回答</div>
+        <div id="adm-qlist"></div>
+      </div>
+      <div class="card">
+        <div class="adm-sec">✏️ スタイリスト情報を編集</div>
+        <div id="adm-stylists"></div>
+        <button class="btn btn-pink" onclick="saveStylists()">保存する</button>
+        <button class="btn btn-ghost" onclick="addStylist()">＋ スタイリストを追加</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// =============================================
+//  ここにデプロイしたGASのURLを貼り付けてください
+// =============================================
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzCUjSPXaJsqUUMw6w2mTAp69djR-7thtcUW8GjL9vl7HpeR1jmxEYK7mzTEUOezCV7Vg/exec';
+// =============================================
+
+const ADMIN_PW = 'adminforest';
+const ORDER_CAP = 4;
+const CAPS = { zen: 2, tok: 2, tom: 1 };
+const SVCS = {
+  zen: { label: '服の飾りつけ（前日 8/16）',   times: ['13:00','14:00','15:00','16:00','17:00','18:00'] },
+  tok: { label: '服の飾りつけ（当日朝 8/17）', times: ['8:00','9:00','10:00','11:00'] },
+  tom: { label: 'フルメイク（当日朝 8/17）',   times: ['8:00','8:30','9:00','9:30','10:00','10:30','11:00','11:30'] }
+};
+
+let state = { counts: {}, bookingList: [], orders: [], questions: [], stylists: [] };
+let sel = null;
+
+async function api(action, data) {
+  const res = await fetch(GAS_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action, ...data })
+  });
+  return res.json();
+}
+
+async function loadState() {
+  const s = await api('getState');
+  state = s;
+  renderReserve();
+  renderQBoard();
+  renderStylists();
+}
+
+function renderReserve() {
+  document.getElementById('loading-reserve').style.display = 'none';
+  document.getElementById('card-koza').style.display = 'block';
+  document.getElementById('card-make').style.display = 'block';
+  document.getElementById('card-order').style.display = 'block';
+  renderSlots('zen', 'sl-zen');
+  renderSlots('tok', 'sl-tok');
+  renderSlots('tom', 'sl-tom');
+  renderOrderSpot();
+}
+
+function renderSlots(sk, eid) {
+  const el = document.getElementById(eid);
+  el.innerHTML = '';
+  SVCS[sk].times.forEach(t => {
+    const key = sk + '|' + t;
+    const cnt = state.counts[key] || 0;
+    const cap = CAPS[sk];
+    const full = cnt >= cap;
+    const d = document.createElement('div');
+    d.className = 'slot' + (full ? ' full' : '');
+    d.innerHTML = t + '<div class="slot-sub">' + (full ? '満員' : '残り' + (cap - cnt) + '枠') + '</div>';
+    if (!full) d.onclick = () => pickSlot(sk, t, d);
+    el.appendChild(d);
+  });
+}
+
+function renderOrderSpot() {
+  const rem = ORDER_CAP - state.orders.length;
+  document.getElementById('order-remain').textContent = rem;
+  if (rem <= 0) {
+    document.getElementById('order-form').style.display = 'none';
+    const done = document.getElementById('order-done');
+    done.style.display = 'block';
+    done.textContent = '受付終了しました（定員に達しました）';
+    done.style.color = '#A32D2D';
+  }
+}
+
+function pickSlot(sk, time, el) {
+  document.querySelectorAll('.slot.selected').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  sel = { sk, time };
+  const f = document.getElementById('bform');
+  f.style.display = 'block';
+  document.getElementById('bform-title').textContent = SVCS[sk].label + '　' + time;
+  f.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function clearSel() {
+  document.querySelectorAll('.slot.selected').forEach(s => s.classList.remove('selected'));
+  sel = null;
+  document.getElementById('bform').style.display = 'none';
+}
+
+async function doBook() {
+  const name = document.getElementById('bname').value.trim();
+  if (!name) { toast('お名前を入力してください', 'w'); return; }
+  if (!sel)   return;
+  const key = sel.sk + '|' + sel.time;
+  const btn = event.target; btn.disabled = true;
+  const r = await api('book', { key, name });
+  btn.disabled = false;
+  if (r.error) { toast('エラー：' + r.error, 'w'); return; }
+  document.getElementById('bname').value = '';
+  clearSel();
+  state.counts[key] = (state.counts[key] || 0) + 1;
+  renderSlots(sel ? sel.sk : 'zen', 'sl-zen');
+  renderSlots('zen', 'sl-zen'); renderSlots('tok', 'sl-tok'); renderSlots('tom', 'sl-tom');
+  toast('予約が完了しました！');
+}
+
+async function doOrder() {
+  const name = document.getElementById('ord-name').value.trim();
+  if (!name) { toast('お名前を入力してください', 'w'); return; }
+  if (state.orders.length >= ORDER_CAP) { toast('受付終了しました', 'w'); return; }
+  const idea = document.getElementById('ord-idea').value.trim();
+  const btn = event.target; btn.disabled = true;
+  const r = await api('order', { name, idea });
+  btn.disabled = false;
+  if (r.error) { toast('エラー：' + r.error, 'w'); return; }
+  state.orders.push({ name, idea });
+  document.getElementById('order-form').style.display = 'none';
+  const done = document.getElementById('order-done');
+  done.style.display = 'block'; done.style.color = '#3B6D11';
+  renderOrderSpot();
+  toast('申し込み完了！連絡をお待ちください。');
+}
+
+async function doQ() {
+  const name = document.getElementById('qname').value.trim() || '匿名';
+  const txt  = document.getElementById('qtxt').value.trim();
+  if (!txt) { toast('内容を入力してください', 'w'); return; }
+  const btn = event.target; btn.disabled = true;
+  const r = await api('question', { name, txt });
+  btn.disabled = false;
+  if (r.error) { toast('エラー：' + r.error, 'w'); return; }
+  state.questions.unshift({ name, txt, ts: new Date().toISOString(), ans: null });
+  document.getElementById('qtxt').value = '';
+  document.getElementById('qname').value = '';
+  renderQBoard(); toast('送信しました！');
+}
+
+function renderQBoard() {
+  const el = document.getElementById('qlist');
+  const qs = state.questions;
+  if (!qs || !qs.length) {
+    el.innerHTML = '<p style="font-size:13px;color:var(--text3);text-align:center;padding:8px 0;">まだ質問がありません</p>';
+    return;
+  }
+  el.innerHTML = qs.map(q => {
+    const d = new Date(q.ts);
+    const dt = (d.getMonth() + 1) + '/' + d.getDate() + ' ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+    const ansHtml = q.ans
+      ? '<div class="q-ans"><div class="q-ansl">✓ 回答</div>' + q.ans + '</div>'
+      : '<div class="q-ts">回答待ち…</div>';
+    return '<div class="q-item"><div class="q-who">◆ ' + q.name + '</div><div class="q-txt">' + q.txt + '</div>' + ansHtml + '<div class="q-ts">' + dt + '</div></div>';
+  }).join('');
+}
+
+function renderStylists() {
+  const el = document.getElementById('stylist-list');
+  const stl = state.stylists;
+  if (!stl || !stl.length) { el.innerHTML = '<p style="color:var(--text3);font-size:13px;">準備中</p>'; return; }
+  el.innerHTML = stl.map(st => {
+    const tags = (st.tags || '').split(',').filter(Boolean).map(t => '<span class="skill-tag">' + t.trim() + '</span>').join('');
+    return '<div class="stylist-row"><div class="avatar">🎨</div><div><div class="st-name">' + st.name + '</div><div class="st-role">' + st.role + '</div><div class="st-desc">' + st.desc + '</div><div style="margin-top:4px;">' + tags + '</div></div></div>';
+  }).join('');
+}
+
+function adminLogin() {
+  if (document.getElementById('pw').value !== ADMIN_PW) { toast('パスワードが違います', 'w'); return; }
+  document.getElementById('admin-gate').style.display = 'none';
+  document.getElementById('admin-main').style.display = 'block';
+  renderAdmin();
+}
+
+function renderAdmin() {
+  const bl = state.bookingList || [];
+  document.getElementById('adm-bookings').innerHTML = bl.length
+    ? bl.map(b => {
+        const [sk, time] = b.key.split('|');
+        return '<div class="adm-row"><div><strong>' + b.name + '</strong><br><span style="font-size:12px;color:var(--text2);">' + (SVCS[sk] || { label: sk }).label + '　' + time + '</span></div><span class="ok-badge" style="background:var(--green-bg);color:var(--green-dk);">確認</span></div>';
+      }).join('')
+    : '<p style="font-size:13px;color:var(--text3);">予約なし</p>';
+
+  const ords = state.orders || [];
+  document.getElementById('adm-orders').innerHTML = ords.length
+    ? ords.map(o => '<div class="adm-row"><div><strong>' + o.name + '</strong><br><span style="font-size:12px;color:var(--text2);">' + (o.idea || 'イメージ未記入') + '</span></div><span class="ok-badge" style="background:var(--gold-bg);color:var(--gold-dk);">受付</span></div>').join('')
+    : '<p style="font-size:13px;color:var(--text3);">申し込みなし</p>';
+
+  const qs = state.questions || [];
+  document.getElementById('adm-qlist').innerHTML = qs.length
+    ? qs.map((q, i) => {
+        const ansF = q.ans
+          ? '<div style="font-size:12px;color:var(--blue-mid);background:var(--blue-bg);padding:6px 8px;border-radius:6px;margin-top:4px;">回答済：' + q.ans + '</div>'
+          : '<textarea style="min-height:55px;margin-top:6px;" id="ans-' + i + '" placeholder="回答を入力…"></textarea><button class="btn btn-pink" style="padding:7px;font-size:13px;" onclick="postAns(' + i + ')">投稿</button>';
+        return '<div class="q-item"><div class="q-who">' + q.name + '</div><div class="q-txt">' + q.txt + '</div>' + ansF + '</div>';
+      }).join('')
+    : '<p style="font-size:13px;color:var(--text3);">質問なし</p>';
+
+  renderAdminStylists();
+}
+
+function renderAdminStylists() {
+  const stl = state.stylists || [];
+  document.getElementById('adm-stylists').innerHTML = stl.map((st, i) =>
+    '<div class="adm-edit">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+    + '<span style="font-size:12px;font-weight:500;">スタイリスト ' + (i + 1) + '</span>'
+    + '<button onclick="removeStylist(' + i + ')" style="border:none;background:none;cursor:pointer;color:#A32D2D;font-size:12px;">🗑 削除</button>'
+    + '</div>'
+    + '<input placeholder="名前" id="st-n-' + i + '" value="' + st.name + '" style="margin-bottom:6px;" />'
+    + '<input placeholder="役割（例：メイク担当）" id="st-r-' + i + '" value="' + st.role + '" style="margin-bottom:6px;" />'
+    + '<textarea placeholder="紹介文" id="st-d-' + i + '" style="min-height:55px;margin-bottom:6px;">' + st.desc + '</textarea>'
+    + '<input placeholder="スキルタグ（カンマ区切り）" id="st-t-' + i + '" value="' + st.tags + '" />'
+    + '</div>'
+  ).join('');
+}
+
+async function saveStylists() {
+  const stylists = [];
+  let i = 0;
+  while (document.getElementById('st-n-' + i)) {
+    stylists.push({
+      name: document.getElementById('st-n-' + i).value,
+      role: document.getElementById('st-r-' + i).value,
+      desc: document.getElementById('st-d-' + i).value,
+      tags: document.getElementById('st-t-' + i).value
+    });
+    i++;
+  }
+  const btn = event.target; btn.disabled = true;
+  const r = await api('saveStylists', { stylists });
+  btn.disabled = false;
+  if (r.error) { toast('エラー：' + r.error, 'w'); return; }
+  state.stylists = stylists;
+  renderStylists();
+  toast('スタイリスト情報を保存しました！');
+}
+
+function addStylist() {
+  state.stylists.push({ name: '', role: '', desc: '', tags: '' });
+  renderAdminStylists();
+}
+
+function removeStylist(i) {
+  state.stylists.splice(i, 1);
+  renderAdminStylists();
+}
+
+async function postAns(i) {
+  const el = document.getElementById('ans-' + i);
+  if (!el) return;
+  const ans = el.value.trim();
+  if (!ans) { toast('回答を入力してください', 'w'); return; }
+  const q = state.questions[i];
+  const btn = event.target; btn.disabled = true;
+  const r = await api('answer', { rowNum: q.rowNum, ans });
+  btn.disabled = false;
+  if (r.error) { toast('エラー：' + r.error, 'w'); return; }
+  state.questions[i].ans = ans;
+  renderQBoard(); renderAdmin();
+  toast('回答を投稿しました！');
+}
+
+function sw(tab) {
+  document.querySelectorAll('.tab').forEach((t, i) =>
+    t.classList.toggle('active', ['reserve','qboard','stylists','admin'][i] === tab)
+  );
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + tab).classList.add('active');
+}
+
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type === 'w' ? '#854F0B' : '#3B6D11';
+  t.style.color = type === 'w' ? '#FAEEDA' : '#EAF3DE';
+  t.style.opacity = '1';
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.style.opacity = '0', 2500);
+}
+
+loadState();
+</script>
+</body>
+</html>
