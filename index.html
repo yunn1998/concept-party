@@ -97,6 +97,15 @@
   .stylist-item:first-child { border-top: none; padding-top: 0; }
   .stylist-img  { width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius); margin-bottom: 10px; background: var(--green-bg); display: block; }
   .stylist-img-placeholder { width: 100%; height: 200px; border-radius: var(--radius); margin-bottom: 10px; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+  .make-menu { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .make-menu img { width: 230px; flex-shrink: 0; border-radius: var(--radius); display: block; cursor: pointer; border: 0.5px solid var(--border); }
+  .lightbox { position: fixed; inset: 0; background: rgba(20,35,18,0.88); display: none; align-items: center; justify-content: center; z-index: 200; padding: 16px; cursor: pointer; }
+  .lightbox.show { display: flex; }
+  .lightbox img { max-width: 100%; max-height: 92vh; border-radius: var(--radius); }
+
+  .stylist-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 10px; }
+  .stylist-gallery img { width: 100%; height: 140px; object-fit: cover; border-radius: var(--radius); display: block; }
+  .stylist-gallery img:only-child { grid-column: span 2; height: 200px; }
   .stylist-row { display: flex; gap: 10px; align-items: flex-start; }
   .avatar      { width: 44px; height: 44px; border-radius: 50%; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; border: 1px solid var(--border2); }
   .st-name     { font-size: 15px; font-weight: 500; color: var(--green-dk); font-family: 'Cormorant Garamond', serif; }
@@ -149,6 +158,14 @@
     <div class="card" id="card-make" style="display:none;">
       <div class="card-title">💄 フルメイク <span class="badge badge-pink">当日朝のみ</span></div>
       <div class="card-desc">2名・30分枠　希望の時間を選んで予約</div>
+      <div class="dlabel">✨ メイクメニュー（横にスクロールできます）</div>
+      <div class="make-menu">
+        <img src="make1.jpg" alt="Flower Princess 花畑のプリンセスメイク" onclick="openMakeImg(this.src)" />
+        <img src="make2.jpg" alt="Butterfly Fairy 蝶の妖精メイク" onclick="openMakeImg(this.src)" />
+        <img src="make3.jpg" alt="Forest Elf 森のエルフメイク" onclick="openMakeImg(this.src)" />
+        <img src="make4.jpg" alt="Berry Fairy 森の木の実の妖精メイク" onclick="openMakeImg(this.src)" />
+        <img src="make5.jpg" alt="Forest Fairy 森の妖精メイク" onclick="openMakeImg(this.src)" />
+      </div>
       <div class="dlabel">📅 当日朝（8/17 月）</div>
       <div class="slots" id="sl-tom"></div>
     </div>
@@ -239,6 +256,7 @@
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('show')"><img id="lightbox-img" src="" alt="メイクメニュー拡大" /></div>
 
 <script>
 // =============================================
@@ -402,8 +420,11 @@ function renderStylists() {
   if (!stl || !stl.length) { el.innerHTML = '<p style="color:var(--text3);font-size:13px;">準備中</p>'; return; }
   el.innerHTML = stl.map(st => {
     const tags = (st.tags || '').split(',').filter(Boolean).map(t => '<span class="skill-tag">' + t.trim() + '</span>').join('');
-    const imgHtml = st.img
-      ? '<img class="stylist-img" src="' + st.img + '" alt="' + st.name + '" />'
+    const imgs = stylistImgList(st);
+    const imgHtml = imgs.length
+      ? (imgs.length === 1
+          ? '<img class="stylist-img" src="' + imgs[0] + '" alt="' + st.name + '" />'
+          : '<div class="stylist-gallery">' + imgs.map(u => '<img src="' + u + '" alt="' + st.name + '" />').join('') + '</div>')
       : '<div class="stylist-img-placeholder">🎨</div>';
     return '<div class="stylist-item">'
       + imgHtml
@@ -462,10 +483,21 @@ function renderAdminStylists() {
     + '<input placeholder="役割（例：メイク担当）" id="st-r-' + i + '" value="' + st.role + '" style="margin-bottom:6px;" />'
     + '<textarea placeholder="紹介文" id="st-d-' + i + '" style="min-height:55px;margin-bottom:6px;">' + st.desc + '</textarea>'
     + '<input placeholder="スキルタグ（カンマ区切り）" id="st-t-' + i + '" value="' + st.tags + '" style="margin-bottom:6px;" />'
-    + '<input placeholder="画像URL（例：https://...）" id="st-i-' + i + '" value="' + (st.img || '') + '" />'
-    + (st.img ? '<img src="' + st.img + '" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-top:6px;" />' : '<div style="font-size:11px;color:var(--text3);margin-top:4px;">画像URLを入力すると表示されます</div>')
+    + '<textarea placeholder="画像URL（1行に1枚、複数可）" id="st-i-' + i + '" style="min-height:70px;">' + (Array.isArray(st.imgs) ? st.imgs.join('\n') : (st.img || '')) + '</textarea>'
+    + (stylistImgList(st).length ? '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:6px;">' + stylistImgList(st).map(u => '<img src="' + u + '" style="width:100%;height:80px;object-fit:cover;border-radius:6px;" />').join('') + '</div>' : '<div style="font-size:11px;color:var(--text3);margin-top:4px;">画像URLを入力すると表示されます</div>')
     + '</div>'
   ).join('');
+}
+
+function openMakeImg(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('show');
+}
+
+function stylistImgList(st) {
+  if (Array.isArray(st.imgs)) return st.imgs.filter(Boolean);
+  if (st.img) return [st.img];
+  return [];
 }
 
 async function saveStylists() {
@@ -476,7 +508,7 @@ async function saveStylists() {
       name: document.getElementById('st-n-' + i).value,
       role: document.getElementById('st-r-' + i).value,
       desc: document.getElementById('st-d-' + i).value,
-      img:  document.getElementById('st-i-' + i).value,
+      imgs: document.getElementById('st-i-' + i).value.split('\n').map(s => s.trim()).filter(Boolean),
       tags: document.getElementById('st-t-' + i).value
     });
     i++;
