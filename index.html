@@ -420,8 +420,9 @@ function renderStylists() {
   if (!stl || !stl.length) { el.innerHTML = '<p style="color:var(--text3);font-size:13px;">準備中</p>'; return; }
   el.innerHTML = stl.map(st => {
     const tags = (st.tags || '').split(',').filter(Boolean).map(t => '<span class="skill-tag">' + t.trim() + '</span>').join('');
+    const icon = (st.role || '').includes('メイク') ? '💄' : '👗';
     return '<div class="stylist-item">'
-      + '<div class="stylist-row"><div class="avatar">✦</div><div>'
+      + '<div class="stylist-row"><div class="avatar">' + icon + '</div><div>'
       + '<div class="st-name">' + st.name + '</div>'
       + '<div class="st-role">' + st.role + '</div>'
       + '<div class="st-desc">' + st.desc + '</div>'
